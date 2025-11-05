@@ -1,0 +1,119 @@
+import json
+import csv
+
+# --- Функция для добавления студентов ---
+def add_students():
+    students = []
+    try:
+        n = int(input("Введите количество студентов: "))
+        for i in range(n):
+            name = input(f"Имя студента {i+1}: ")
+            group = input("Группа: ")
+            gpa = float(input("Средний балл (GPA): "))
+            students.append({"name": name, "group": group, "gpa": gpa})
+    except ValueError:
+        print("Ошибка: введено некорректное значение!")
+    return students
+
+
+# --- Сохранение в JSON ---
+def save_json(students, filename="students.json"):
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(students, f, ensure_ascii=False, indent=4)
+        print("✅ Данные сохранены в JSON.")
+    except Exception as e:
+        print("Ошибка при сохранении JSON:", e)
+
+
+# --- Загрузка из JSON ---
+def load_json(filename="students.json"):
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        print("✅ Данные загружены из JSON.")
+        return data
+    except FileNotFoundError:
+        print("Файл не найден!")
+        return []
+    except json.JSONDecodeError:
+        print("Ошибка чтения JSON!")
+        return []
+
+
+# --- Сохранение в CSV ---
+def save_csv(students, filename="students.csv"):
+    try:
+        with open(filename, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["name", "group", "gpa"])
+            writer.writeheader()
+            writer.writerows(students)
+        print("✅ Данные сохранены в CSV.")
+    except Exception as e:
+        print("Ошибка при сохранении CSV:", e)
+
+
+# --- Фильтрация студентов по GPA ---
+def filter_students(students):
+    try:
+        threshold = float(input("Введите минимальный GPA для фильтрации: "))
+        filtered = [s for s in students if s["gpa"] >= threshold]
+        print("\nСтуденты с GPA выше порога:")
+        for s in filtered:
+            print(f"{s['name']} ({s['group']}) — GPA: {s['gpa']}")
+    except ValueError:
+        print("Ошибка: введите число!")
+
+
+# --- Главное меню ---
+def main():
+    students = []
+
+    while True:
+        print("\n=== МЕНЮ ===")
+        print("1. Добавить студентов")
+        print("2. Показать всех студентов")
+        print("3. Сохранить в JSON")
+        print("4. Загрузить из JSON")
+        print("5. Сохранить в CSV")
+        print("6. Фильтровать по GPA")
+        print("7. Выйти")
+
+        choice = input("Выберите пункт меню: ")
+
+        if choice == "1":
+            students.extend(add_students())
+        elif choice == "2":
+            for s in students:
+                print(f"{s['name']} ({s['group']}) — GPA: {s['gpa']}")
+        elif choice == "3":
+            save_json(students)
+        elif choice == "4":
+            students = load_json()
+        elif choice == "5":
+            save_csv(students)
+        elif choice == "6":
+            filter_students(students)
+        elif choice == "7":
+            print("Выход из программы...")
+            break
+        else:
+            print("Неверный пункт меню!")
+
+Результат:
+ === МЕНЮ ===
+1. Добавить студентов
+2. Показать всех студентов
+3. Сохранить в JSON
+4. Загрузить из JSON
+5. Сохранить в CSV
+6. Фильтровать по GPA
+7. Выйти
+
+Введите количество студентов: 2
+Имя студента 1: Айгерим
+Группа: IS-23
+Средний балл (GPA): 3.7
+Имя студента 2: Нуржан
+Группа: IS-23
+Средний балл (GPA): 2.9
