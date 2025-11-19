@@ -1,0 +1,83 @@
+import json
+
+class Student:
+    def __init__(self, name, group, gpa):
+        self.__name = name
+        self.__group = group
+        self.__gpa = gpa
+
+    def display_info(self):
+        print(f"Имя: {self.__name}, Группа: {self.__group}, GPA: {self.__gpa}")
+
+    def update_gpa(self, new_gpa):
+        if 0 <= new_gpa <= 4:
+            self.__gpa = new_gpa
+        else:
+            print("Ошибка: GPA должен быть от 0 до 4")
+
+    def to_dict(self):
+        return {
+            "name": self.__name,
+            "group": self.__group,
+            "gpa": self.__gpa
+        }
+
+class Group:
+    def __init__(self):
+        self.students = []
+
+    def add_student(self, student):
+        self.students.append(student)
+        print(f"Студент {student._Student__name} добавлен")
+
+    def remove_student(self, name):
+        for s in self.students:
+            if s._Student__name == name:
+                self.students.remove(s)
+                print(f"Студент {name} удалён")
+                return
+        print("Студент не найден")
+
+    def show_all(self):
+        if not self.students:
+            print("Список пуст")
+        for s in self.students:
+            s.display_info()
+
+    def get_top_students(self, threshold):
+        result = [s for s in self.students if s._Student__gpa > threshold]
+        for s in result:
+            s.display_info()
+        return result
+
+    def save_to_json(self, filename):
+        data = [s.to_dict() for s in self.students]
+
+        # просто пытаемся открыть файл в текущей папке
+        try:
+            with open(filename, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            print(f"Файл сохранён как {filename}")
+        except PermissionError:
+            print("Нет доступа к директории! Попробуй запустить файл из другой папки.")
+        except Exception as e:
+            print("Ошибка при сохранении:", e)
+
+# Демонстрация
+group = Group()
+
+s1 = Student("Алия", "CS-101", 3.5)
+s2 = Student("Марат", "CS-102", 2.8)
+s3 = Student("Ринат", "CS-101", 3.9)
+
+group.add_student(s1)
+group.add_student(s2)
+group.add_student(s3)
+
+print("\nВсе студенты:")
+group.show_all()
+
+print("\nЛучшие студенты (GPA > 3):")
+group.get_top_students(3)
+
+group.save_to_json("students.json")
