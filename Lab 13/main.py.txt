@@ -1,0 +1,51 @@
+# Базовый класс
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def display_info(self):
+        return f"Имя: {self.name}, возраст: {self.age}"
+
+
+# Студент
+class Student(Person):
+    def __init__(self, name, age, group, gpa):
+        super().__init__(name, age)
+        self.group = group
+        self.gpa = gpa
+
+    def display_info(self):
+        return f"Студент: {self.name}, возраст: {self.age}, группа: {self.group}, средний балл: {self.gpa}"
+
+
+# Преподаватель
+class Teacher(Person):
+    def __init__(self, name, age, subject, experience):
+        super().__init__(name, age)
+        self.subject = subject
+        self.experience = experience
+
+    def display_info(self):
+        return f"Преподаватель: {self.name}, возраст: {self.age}, предмет: {self.subject}, стаж: {self.experience} лет"
+
+
+# Административный сотрудник
+class AdminStaff(Person):
+    def __init__(self, name, age, position, department):
+        super().__init__(name, age)
+        self.position = position
+        self.department = department
+
+    def display_info(self):
+        return f"Администратор: {self.name}, возраст: {self.age}, должность: {self.position}, отдел: {self.department}"
+
+
+# Пример работы
+student = Student("Алия", 18, "CS-101", 3.8)
+teacher = Teacher("Марат", 35, "Информатика", 10)
+admin = AdminStaff("Жанна", 40, "Бухгалтер", "Финансовый")
+
+print(student.display_info())
+print(teacher.display_info())
+print(admin.display_info())
