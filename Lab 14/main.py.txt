@@ -1,0 +1,52 @@
+def calculate_average(grades):
+    """Вычисляет средний балл"""
+    if not grades:
+        
+        raise ValueError("Список оценок не может быть пустым")
+    
+    
+    if not all(isinstance(x, (int, float)) for x in grades):
+        raise TypeError("Все оценки должны быть числами")
+            
+    avg = sum(grades) / len(grades)
+    return round(avg, 2)
+
+
+def determine_grade_letter(avg):
+    """Определяет буквенную оценку"""
+    if avg >= 90:
+        return "A"
+    elif avg >= 80:
+        return "B"
+    elif avg >= 70:
+        return "C"
+    elif avg >= 60:
+        return "D"
+    else:
+        return "F"
+
+
+def student_report(name, grades):
+    """Формирует итоговый отчёт"""
+    avg = calculate_average(grades)
+    letter = determine_grade_letter(avg)
+    
+    result = (f"Студент: {name}\n"
+              f"Средний балл: {avg}\n"
+              f"Оценка: {letter}")
+    
+    return result
+
+
+if __name__ == "__main__":
+    try:
+        student_name = input("Введите имя студента: ")
+        grades_input = input("Введите оценки через пробел: ")
+        
+        grades = [float(x) for x in grades_input.split()]
+        
+        print(student_report(student_name, grades))
+        
+    except Exception as e:
+        
+        print(f"Ошибка выполнения: {e}")
