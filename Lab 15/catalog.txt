@@ -1,0 +1,56 @@
+// catalog.js
+
+import { saveItems } from './storage.js'; // Убедимся, что import присутствует
+
+let items = [];
+
+export function loadInitialData(initialItems) {
+    items = initialItems || [];
+}
+
+export function addItem(name, price, category, imageUrl) {
+    /** Операция: добавление товара (с изображением). */
+    if (!name || isNaN(price) || price <= 0) {
+        return false;
+    }
+    
+    const newItem = {
+        id: Date.now(), 
+        name: name.trim(),
+        price: parseFloat(price).toFixed(2),
+        category: category.trim() || 'Без категории',
+        // НОВОЕ ПОЛЕ: если URL не предоставлен, используем заглушку
+        imageUrl: imageUrl.trim() || 'https://via.placeholder.com/60x60?text=No+Image' 
+    };
+    items.push(newItem);
+    return true;
+}
+
+export function removeItem(id) {
+    /** Операция: удаление товара по ID. */
+    const initialLength = items.length;
+    items = items.filter(item => item.id !== id);
+    if (items.length < initialLength) {
+        // Мы сохраняем в main.js, но можно добавить сохранение и здесь, если логика сложнее
+        return true; 
+    }
+    return false;
+}
+
+export function searchItems(keyword) {
+    /** Операция: поиск/фильтрация по названию или категории. */
+    if (!keyword) {
+        return items;
+    }
+    const lowerKeyword = keyword.toLowerCase();
+    
+    // Поиск теперь включает название и категорию
+    return items.filter(item => 
+        item.name.toLowerCase().includes(lowerKeyword) ||
+        item.category.toLowerCase().includes(lowerKeyword)
+    );
+}
+
+export function getAllItems() {
+    return items;
+}

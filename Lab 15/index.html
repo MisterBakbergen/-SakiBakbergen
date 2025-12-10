@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мини-каталог товаров</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Мини-каталог товаров</h1>
+
+        <section class="controls">
+            <h2>Добавить товар</h2>
+            <div class="input-group">
+                <input id="nameInput" placeholder="Название" required>
+                <input id="priceInput" type="number" placeholder="Цена" required min="0.01" step="0.01">
+                <input id="categoryInput" placeholder="Категория (напр. Еда, Книги)">
+                <input id="imageInput" placeholder="URL изображения (необязательно)">
+                <button id="addBtn">Добавить</button>
+            </div>
+            
+            <hr>
+            
+            <h2>Поиск и фильтрация</h2>
+            <div class="input-group">
+                <input id="searchInput" placeholder="Поиск по названию или категории">
+                <button id="searchBtn">Найти</button>
+                <button id="resetBtn">Сброс</button>
+            </div>
+        </section>
+
+        <section class="catalog">
+            <h2>Список товаров</h2>
+            <ul id="catalogList">
+                </ul>
+        </section>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>
